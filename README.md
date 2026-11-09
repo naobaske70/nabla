@@ -28,20 +28,20 @@ main {
 }
 
 h1 {
-  margin: 8px 0;
+  margin: 10px 0 16px;
   color: var(--gold);
   text-align: center;
   font-size: clamp(23px, 4vw, 34px);
 }
 
 h2 {
-  margin: 0 0 9px;
+  margin: 0 0 10px;
   color: var(--gold);
   font-size: 18px;
 }
 
 button, select { font: inherit; }
-button { cursor: pointer; touch-action: manipulation; }
+button { cursor: pointer; }
 button:disabled { cursor: default; opacity: .55; }
 
 button:focus-visible,
@@ -53,14 +53,6 @@ input:focus-visible {
 
 [hidden] { display: none !important; }
 
-.intro, .hint {
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.intro { text-align: center; }
-.hint { color: #d7e6db; }
-
 .panel {
   margin: 10px 0;
   padding: 12px;
@@ -69,13 +61,15 @@ input:focus-visible {
   background: #102a22de;
 }
 
-.topbar, .actions {
+.actions, .topbar {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 9px;
 }
+
+.actions { margin: 10px 0; }
 
 .topbar {
   padding: 9px;
@@ -108,24 +102,19 @@ input:focus-visible {
   color: #fff4d2;
 }
 
-.actions { margin: 10px 0; }
-
 .field {
-  min-height: 215px;
+  min-height: 195px;
   margin: 11px 0;
   padding: 14px;
   border: 2px solid #a6c8ac;
   border-radius: 16px;
   background: #244b3d;
-  box-shadow: inset 0 2px 10px #0004, 0 5px 15px #0003;
 }
 
 .field.enemy {
   border-color: #d79a85;
   background: #4d3937;
 }
-
-.enemy .control { background: #58382e; }
 
 .field-head {
   display: flex;
@@ -148,7 +137,6 @@ input:focus-visible {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: stretch;
   gap: 10px;
 }
 
@@ -171,7 +159,7 @@ input:focus-visible {
 
 .field .playing-card {
   width: 133px;
-  min-height: 168px;
+  min-height: 160px;
 }
 
 .enemy-card {
@@ -210,29 +198,25 @@ input:focus-visible {
 
 .card-symbol {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   width: 100%;
   min-width: 0;
-  max-height: 110px;
+  max-height: 112px;
   overflow: auto;
   font-size: 21px;
-  text-align: center;
 }
 
 .card-symbol mjx-container {
   max-width: 100%;
-  margin: 0 auto !important;
+  margin: 0 !important;
 }
 
-.field .card-symbol { font-size: 24px; }
+.field .card-symbol { font-size: 23px; }
 
-.field .card-symbol mjx-container {
-  font-size: 90% !important;
-}
-
-.limit-card .card-symbol mjx-container {
-  font-size: 68% !important;
+/* 極限は添字を下に置くため、カード内に収まる大きさにする */
+.limit-card .card-symbol {
+  font-size: 16px;
 }
 
 #hand {
@@ -243,7 +227,7 @@ input:focus-visible {
 }
 
 #opponentHand {
-  min-height: 83px;
+  min-height: 75px;
   align-items: center;
 }
 
@@ -258,7 +242,6 @@ input:focus-visible {
   background: repeating-linear-gradient(
     45deg, #294b76 0 7px, #193653 7px 14px
   );
-  box-shadow: inset 0 0 0 4px #173451, 0 4px 8px #0006;
   color: #ffe6a2;
   font-size: 24px;
   font-weight: bold;
@@ -279,13 +262,13 @@ select {
   border-radius: 8px;
 }
 
-#status, #notice {
-  min-height: 45px;
+#notice, #status {
   padding: 10px;
   border-radius: 9px;
   background: #ffffff13;
   color: #ffe3a0;
   white-space: pre-wrap;
+  line-height: 1.6;
 }
 
 #log {
@@ -304,61 +287,28 @@ select {
   white-space: pre-wrap;
 }
 
-.changed { animation: appear .65s ease-out; }
-.field-flash { animation: flash .65s ease-out; }
-
-@keyframes appear {
-  from {
-    opacity: .25;
-    transform: translateY(12px) scale(.85);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@keyframes flash {
-  45% {
-    box-shadow: inset 0 0 30px #ffe58b, 0 0 25px #ffe58b;
-  }
-}
-
-.fly-card {
+/* body直下に配置し、場より手前に表示する */
+#cardExplanation {
   position: fixed;
   z-index: 1000;
-  display: grid;
-  place-items: center;
-  width: 96px;
-  height: 128px;
-  padding: 8px;
-  border: 3px solid var(--gold);
+  width: min(700px, calc(100vw - 20px));
+  padding: 10px 14px;
+  border: 2px solid var(--gold);
   border-radius: 12px;
-  background: #fff8e4;
-  color: #253042;
-  font-size: 17px;
-  font-weight: bold;
-  text-align: center;
+  background: #102a22;
+  color: var(--cream);
+  box-shadow: 0 10px 25px #000a;
+  font-size: 16px;
+  line-height: 1.35;
+  white-space: normal;
+  overflow-wrap: anywhere;
   pointer-events: none;
-  box-shadow: 0 9px 20px #0008;
-  transition: transform .62s ease-in, opacity .62s ease-in;
-}
-
-.fly-card.enemy-fly {
-  background: #fff0e8;
-  border-color: #d79a85;
-}
-
-.fly-card.go {
-  transform: translate(var(--dx),var(--dy))
-    rotate(14deg) scale(.55);
-  opacity: 0;
 }
 
 .overlay {
   position: fixed;
   inset: 0;
-  z-index: 1100;
+  z-index: 2000;
   display: grid;
   place-items: center;
   padding: 15px;
@@ -366,7 +316,7 @@ select {
 }
 
 .dialog {
-  width: min(100%,560px);
+  width: min(100%, 560px);
   max-height: 92vh;
   overflow: auto;
   padding: 20px;
@@ -397,24 +347,14 @@ select {
   background: #ffffff10;
 }
 
-@media (max-width:600px) {
-  .field { min-height: 205px; padding: 10px; }
-  .field .playing-card { width: 105px; min-height: 145px; }
+@media (max-width: 600px) {
+  .field { padding: 10px; }
+  .field .playing-card { width: 105px; min-height: 140px; }
   .field .card-symbol { font-size: 19px; }
   .playing-card { width: 89px; min-height: 125px; }
   .card-symbol { font-size: 17px; }
+  .limit-card .card-symbol { font-size: 13px; }
   .card-back { width: 44px; height: 65px; }
-
-  .limit-card .card-symbol mjx-container {
-    font-size: 62% !important;
-  }
-}
-
-@media (prefers-reduced-motion:reduce) {
-  *, *::before, *::after {
-    animation-duration: .01ms !important;
-    transition-duration: .01ms !important;
-  }
 }
 </style>
 
@@ -424,7 +364,6 @@ window.MathJax = {
   startup: { typeset: false }
 };
 </script>
-
 <script defer
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
 </script>
@@ -434,12 +373,8 @@ window.MathJax = {
 <main>
   <h1>∇ ナブラ演算子ゲーム（一人用）</h1>
 
-  <p class="intro">
-    手札を選び、対象の基底または「この場に実行」を押してください。
-  </p>
-
   <div id="counts" class="topbar">
-    メニューから開始してください。
+    ゲームの準備をしています…
   </div>
 
   <div class="actions">
@@ -453,13 +388,8 @@ window.MathJax = {
       操作履歴を開く
     </button>
 
-    <button id="openMenu" class="control">
-      メニュー
-    </button>
-
-    <button id="quickRules" class="control">
-      遊び方
-    </button>
+    <button id="openMenu" class="control">メニュー</button>
+    <button id="quickRules" class="control">遊び方</button>
   </div>
 
   <div id="notice" class="panel"
@@ -469,12 +399,10 @@ window.MathJax = {
 
   <section id="settingsPanel" class="panel" hidden>
     <h2>状況・設定</h2>
-
     <div id="status">起動しています…</div>
 
     <div class="actions">
       <label for="difficulty">相手の強さ</label>
-
       <select id="difficulty">
         <option value="easy">初級</option>
         <option value="normal" selected>中級</option>
@@ -515,10 +443,11 @@ window.MathJax = {
   </section>
 </main>
 
+<div id="cardExplanation" role="status" hidden></div>
+
 <div id="menuOverlay" class="overlay"
   role="dialog" aria-modal="true"
   aria-labelledby="menuTitle">
-
   <div class="dialog">
     <h2 id="menuTitle">∇ ナブラ演算子ゲーム（一人用）</h2>
 
@@ -529,7 +458,6 @@ window.MathJax = {
 
     <div class="actions">
       <label for="menuDifficulty">相手の強さ</label>
-
       <select id="menuDifficulty">
         <option value="easy">初級</option>
         <option value="normal" selected>中級</option>
@@ -542,11 +470,9 @@ window.MathJax = {
       <button id="menuStart" class="control" disabled>
         ゲームを始める
       </button>
-
       <button id="menuRules" class="control">
         遊び方を見る
       </button>
-
       <button id="menuReturn" class="control" hidden>
         ゲームに戻る
       </button>
@@ -558,39 +484,18 @@ window.MathJax = {
 
     <div id="rulesBox" hidden>
       <h3>遊び方</h3>
-
       <ol>
-        <li>
-          自分と相手の場は、どちらも
-          $1$、$x$、$x^2$ から始まります。
-        </li>
-        <li>
-          手札を選び、操作したい場または基底を押します。
-          先攻のあなたから交互に操作します。
-        </li>
-        <li>
-          関数カードは場に基底を追加します。
-          ∇は場全体を１回、△は場全体を２回微分します。
-        </li>
-        <li>
-          $d/dx$・$\int$ は同じ基底に使う
-          同種カードを追加選択できます。
-          ×・÷は関数カードも選びます。
-        </li>
-        <li>
-          演算で０になった基底、発散した基底、
-          同じ場の別の基底の定数倍になった基底は消えます。
-        </li>
-        <li>
-          相手の場を先に０次元にすると勝利です。
-          山札が尽きた場合は場の次元を比較します。
-        </li>
+        <li>両者の場は $1$、$x$、$x^2$ から始まります。あなたが先攻です。</li>
+        <li>手札を選び、操作する場または基底を押します。</li>
+        <li>関数カードは「この場に実行」で追加します。∇・△も場全体に作用します。</li>
+        <li>$d/dx$・$\int$ は同種カードを追加選択できます。×・÷は関数カードも選択してください。</li>
+        <li>÷の計算順序は「状況・設定」で切り替えられます。</li>
+        <li>０になった基底、発散した基底、同じ場の別の基底の定数倍になった基底は消えます。</li>
+        <li>先に相手を０次元にすると勝利です。山札終了時は次元を比較します。</li>
       </ol>
-
-      <p class="hint">
-        説明書を参考にした試作版です。
-        計算結果を確認できない操作は、
-        カードを消費せずに拒否します。
+      <p>
+        この一人用版は試作です。カード枚数は説明書に指定がないため、
+        79枚の仮設定です。逆関数カードは未実装です。
       </p>
     </div>
   </div>
@@ -599,30 +504,16 @@ window.MathJax = {
 <div id="resultOverlay" class="overlay" hidden
   role="dialog" aria-modal="true"
   aria-labelledby="resultTitle">
-
   <div class="dialog">
     <h2 id="resultTitle">結果</h2>
     <p id="resultText"></p>
-
     <div class="actions">
-      <button id="resultReset" class="control">
-        もう一度
-      </button>
-
-      <button id="resultClose" class="control">
-        盤面を見る
-      </button>
-
-      <button id="resultMenu" class="control">
-        メニューへ
-      </button>
+      <button id="resultReset" class="control">もう一度</button>
+      <button id="resultClose" class="control">盤面を見る</button>
+      <button id="resultMenu" class="control">メニューへ</button>
     </div>
   </div>
 </div>
-
-<script
-  src="https://cdn.jsdelivr.net/pyodide/v0.27.4/full/pyodide.js">
-</script>
 
 <script id="pythonSource" type="text/plain">
 import json
@@ -643,84 +534,38 @@ FUNCTIONS = {
 }
 
 META = {
-    "cos": ("cos x", r"\cos x", "function"),
-    "sin": ("sin x", r"\sin x", "function"),
-    "exp": ("e^x", r"e^x", "function"),
-    "x": ("x", r"x", "function"),
-    "x2": ("x²", r"x^2", "function"),
-    "one": ("1", r"1", "function"),
-    "zero": ("0", r"0", "function"),
-
-    "nabla": ("∇", r"\nabla", "global"),
-    "triangle": ("△", r"\triangle", "global"),
-
-    "derive": ("d/dx", r"\dfrac{d}{dx}", "repeat"),
-    "integrate": ("∫", r"\int", "repeat"),
-
-    "multiply": ("×", r"\times", "combine"),
-    "divide": ("÷", r"\div", "combine"),
-
-    "limPlus": (
-        "lim x→+∞",
-        r"\lim\limits_{\scriptstyle x\to+\infty}",
-        "single"
-    ),
-    "limMinus": (
-        "lim x→−∞",
-        r"\lim\limits_{\scriptstyle x\to-\infty}",
-        "single"
-    ),
-    "lim0": (
-        "lim x→0",
-        r"\lim\limits_{\scriptstyle x\to0}",
-        "single"
-    ),
-    "limsup": (
-        "limsup x→+∞",
-        r"\limsup\limits_{\scriptstyle x\to+\infty}",
-        "single"
-    ),
-    "liminf": (
-        "liminf x→+∞",
-        r"\liminf\limits_{\scriptstyle x\to+\infty}",
-        "single"
-    ),
-
-    "sqrt": (
-        "√",
-        r"\sqrt{\phantom{x}}",
-        "single"
-    ),
-    "log": ("log", r"\log", "single")
+    "cos": ("cos x", "function"),
+    "sin": ("sin x", "function"),
+    "exp": ("e^x", "function"),
+    "x": ("x", "function"),
+    "x2": ("x²", "function"),
+    "one": ("1", "function"),
+    "zero": ("0", "function"),
+    "nabla": ("∇", "global"),
+    "triangle": ("△", "global"),
+    "derive": ("d/dx", "repeat"),
+    "integrate": ("∫", "repeat"),
+    "multiply": ("×", "combine"),
+    "divide": ("÷", "combine"),
+    "limPlus": ("lim x→+∞", "single"),
+    "limMinus": ("lim x→−∞", "single"),
+    "lim0": ("lim x→0", "single"),
+    "limsup": ("limsup x→+∞", "single"),
+    "liminf": ("liminf x→+∞", "single"),
+    "sqrt": ("√", "single"),
+    "log": ("log", "single")
 }
 
-# 説明書にカード枚数の指定がないため、
-# 以前の仮設定を調整した合計79枚。
-# 逆関数を除き、その３枚を lim0・limsup・liminf に追加。
+# 説明書に枚数指定がないため79枚の仮設定。
 COPIES = {
-    "cos": 3,
-    "sin": 3,
-    "exp": 3,
-    "x": 3,
-    "x2": 3,
-    "one": 3,
-    "zero": 1,
-
-    "nabla": 2,
-    "triangle": 2,
-    "derive": 8,
-    "integrate": 7,
-    "multiply": 7,
-    "divide": 7,
-
-    "limPlus": 4,
-    "limMinus": 4,
-    "lim0": 5,
-    "limsup": 4,
-    "liminf": 4,
-
-    "sqrt": 3,
-    "log": 3
+    "cos": 3, "sin": 3, "exp": 3,
+    "x": 3, "x2": 3, "one": 3, "zero": 1,
+    "nabla": 2, "triangle": 2,
+    "derive": 8, "integrate": 7,
+    "multiply": 7, "divide": 7,
+    "limPlus": 4, "limMinus": 4, "lim0": 5,
+    "limsup": 4, "liminf": 4,
+    "sqrt": 3, "log": 3
 }
 
 assert sum(COPIES.values()) == 79
@@ -744,33 +589,23 @@ def label(card_id):
 
 
 def kind(card_id):
-    return META[card_id][2]
+    return META[card_id][1]
 
 
-def expression_text(expr):
-    return str(expr).replace("**", "^")
+def text(value):
+    return str(value).replace("**", "^")
 
 
-def field_text(expressions):
-    if not expressions:
+def field_text(values):
+    if not values:
         return "基底なし（0次元）"
-
-    return (
-        "、".join(
-            expression_text(value)
-            for value in expressions
-        )
-        + "（"
-        + str(len(expressions))
-        + "次元）"
-    )
+    return "、".join(map(text, values)) + "（" + str(len(values)) + "次元）"
 
 
-def cleaned(expressions):
-    """0と、定数倍と確認できる重複基底を除く。"""
+def cleaned(values):
     result = []
 
-    for value in expressions:
+    for value in values:
         current = sp.simplify(value)
 
         if current == 0:
@@ -778,20 +613,16 @@ def cleaned(expressions):
 
         duplicate = False
 
-        for existing in result:
+        for previous in result:
             try:
-                ratio = sp.simplify(
-                    current / existing
-                )
+                ratio = sp.simplify(current / previous)
 
                 if (
                     not ratio.free_symbols
-                    and ratio.is_zero is False
-                    and ratio.is_finite is True
                     and ratio.is_real is True
-                    and sp.simplify(
-                        current - ratio * existing
-                    ) == 0
+                    and ratio.is_finite is True
+                    and ratio.is_zero is False
+                    and sp.simplify(current - ratio * previous) == 0
                 ):
                     duplicate = True
                     break
@@ -805,72 +636,43 @@ def cleaned(expressions):
 
 
 def check_real(value):
-    """実数として確認できない操作を拒否する。"""
     value = sp.simplify(value)
 
-    if value.has(sp.zoo, sp.nan):
-        raise InvalidMove(
-            "実数の式として扱えません。"
-        )
+    if value.has(sp.nan, sp.zoo):
+        raise InvalidMove("実数の式として扱えません。")
 
     if value.is_real is False:
-        raise InvalidMove(
-            "実数の範囲で定義できません。"
-        )
+        raise InvalidMove("実数の範囲で定義できません。")
 
     if not value.free_symbols:
         if value.is_real is not True:
-            raise InvalidMove(
-                "実数の値と確認できません。"
-            )
-
+            raise InvalidMove("実数の値と確認できません。")
         return value
 
     try:
-        domain = continuous_domain(
-            value, x, sp.S.Reals
-        )
-
+        domain = continuous_domain(value, x, sp.S.Reals)
         if domain is sp.S.EmptySet:
-            raise InvalidMove(
-                "実数の定義域がありません。"
-            )
-
+            raise InvalidMove("実数の定義域がありません。")
     except InvalidMove:
         raise
-
     except Exception:
-        raise InvalidMove(
-            "実数の定義域を確認できませんでした。"
-        )
+        raise InvalidMove("実数の定義域を確認できませんでした。")
 
     return value
 
 
 def finite_limit(value):
-    if (
-        isinstance(value, sp.Limit)
-        or value.has(sp.Limit, sp.nan, sp.zoo)
-    ):
-        raise InvalidMove(
-            "極限を確定できませんでした。"
-        )
+    if isinstance(value, sp.Limit) or value.has(sp.Limit, sp.nan, sp.zoo):
+        raise InvalidMove("極限を確定できませんでした。")
 
     if value in (sp.oo, -sp.oo):
         return None
 
     if isinstance(value, sp.AccumBounds):
-        raise InvalidMove(
-            "振動する通常の極限は取れません。"
-        )
+        raise InvalidMove("振動する通常の極限は取れません。")
 
-    if (
-        value.is_real is not True
-        or value.is_finite is not True
-    ):
-        raise InvalidMove(
-            "実数の有限な極限と確認できません。"
-        )
+    if value.is_real is not True or value.is_finite is not True:
+        raise InvalidMove("有限の実数値と確認できません。")
 
     return sp.simplify(value)
 
@@ -878,38 +680,21 @@ def finite_limit(value):
 def take_limit(expr, card_id):
     try:
         if card_id == "lim0":
-            domain = continuous_domain(
-                expr, x, sp.S.Reals
-            )
+            domain = continuous_domain(expr, x, sp.S.Reals)
 
             if domain.contains(0) is not sp.S.true:
-                raise InvalidMove(
-                    "x=0が定義域に含まれません。"
-                )
+                raise InvalidMove("x=0が定義域に含まれません。")
 
-            left = sp.limit(
-                expr, x, 0, dir="-"
-            )
-            right = sp.limit(
-                expr, x, 0, dir="+"
-            )
+            left = sp.limit(expr, x, 0, dir="-")
+            right = sp.limit(expr, x, 0, dir="+")
 
-            if left != right:
-                if sp.simplify(left - right) != 0:
-                    raise InvalidMove(
-                        "左右の極限が一致しません。"
-                    )
+            if left != right and sp.simplify(left - right) != 0:
+                raise InvalidMove("左右の極限が一致しません。")
 
             return finite_limit(right)
 
-        if card_id == "limMinus":
-            value = sp.limit(
-                expr, x, -sp.oo
-            )
-        else:
-            value = sp.limit(
-                expr, x, sp.oo
-            )
+        point = -sp.oo if card_id == "limMinus" else sp.oo
+        value = sp.limit(expr, x, point)
 
         if card_id in ("limsup", "liminf"):
             if isinstance(value, sp.AccumBounds):
@@ -923,58 +708,30 @@ def take_limit(expr, card_id):
 
     except InvalidMove:
         raise
-
     except Exception:
-        raise InvalidMove(
-            "この極限の結果を確定できませんでした。"
-        )
+        raise InvalidMove("この極限の結果を確定できませんでした。")
 
 
-def transform(
-    card_id,
-    before,
-    index,
-    extra_ids=(),
-    reverse_divide=False
-):
+def transform(card_id, before, index, extras=(), reverse=False):
     category = kind(card_id)
 
     if category in ("function", "global"):
         if index is not None:
-            raise InvalidMove(
-                "「この場に実行」を押してください。"
-            )
+            raise InvalidMove("「この場に実行」を押してください。")
 
-        if extra_ids:
-            raise InvalidMove(
-                "追加カードは使えません。"
-            )
+        if extras:
+            raise InvalidMove("追加カードは使えません。")
 
         if category == "function":
-            after = cleaned(
-                before + [FUNCTIONS[card_id]]
-            )
-
             return (
-                after,
-                label(card_id)
-                + "を基底として追加"
+                cleaned(before + [FUNCTIONS[card_id]]),
+                label(card_id) + "を基底として追加"
             )
 
-        order = (
-            2 if card_id == "triangle" else 1
-        )
-
-        after = cleaned([
-            sp.diff(value, x, order)
-            for value in before
-        ])
-
+        order = 2 if card_id == "triangle" else 1
         return (
-            after,
-            "場の全基底を"
-            + str(order)
-            + "回微分"
+            cleaned([sp.diff(value, x, order) for value in before]),
+            "場の全基底を" + str(order) + "回微分"
         )
 
     if (
@@ -983,100 +740,58 @@ def transform(
         or index < 0
         or index >= len(before)
     ):
-        raise InvalidMove(
-            "対象の基底を押してください。"
-        )
+        raise InvalidMove("対象の基底を押してください。")
 
     original = before[index]
 
     if category == "repeat":
-        if any(
-            other != card_id
-            for other in extra_ids
-        ):
-            raise InvalidMove(
-                "同種の演算子だけ追加できます。"
-            )
+        if any(extra != card_id for extra in extras):
+            raise InvalidMove("同種の演算子だけ追加できます。")
 
         changed = original
-
-        for _ in range(1 + len(extra_ids)):
+        for _ in range(1 + len(extras)):
             if card_id == "derive":
-                changed = sp.diff(
-                    changed, x
-                )
+                changed = sp.diff(changed, x)
             else:
-                changed = sp.integrate(
-                    changed, x
-                )
-
+                changed = sp.integrate(changed, x)
                 if changed.has(sp.Integral):
-                    raise InvalidMove(
-                        "積分結果を確定できませんでした。"
-                    )
+                    raise InvalidMove("積分結果を確定できませんでした。")
 
     elif category == "combine":
-        if not extra_ids:
-            raise InvalidMove(
-                "関数カードも選んでください。"
-            )
+        if not extras:
+            raise InvalidMove("関数カードも選んでください。")
 
-        if any(
-            kind(other) != "function"
-            for other in extra_ids
-        ):
-            raise InvalidMove(
-                "関数カードだけ組み合わせられます。"
-            )
+        if any(kind(extra) != "function" for extra in extras):
+            raise InvalidMove("関数カードだけ組み合わせられます。")
 
-        product = sp.prod(
-            FUNCTIONS[other]
-            for other in extra_ids
-        )
+        product = sp.prod(FUNCTIONS[extra] for extra in extras)
 
         if card_id == "multiply":
             changed = original * product
-
         else:
-            if reverse_divide:
-                numerator = product
-                divisor = original
-            else:
-                numerator = original
-                divisor = product
+            numerator, divisor = (
+                (product, original)
+                if reverse
+                else (original, product)
+            )
 
             if sp.simplify(divisor) == 0:
-                raise InvalidMove(
-                    "恒等的に0の式では割れません。"
-                )
+                raise InvalidMove("恒等的に0の式では割れません。")
 
-            # 個別の未定義点は、約分後の式で扱う
-            # この試作版の仕様。
-            changed = sp.cancel(
-                numerator / divisor
-            )
+            # 試作版では約分後の式で判定する。
+            changed = sp.cancel(numerator / divisor)
 
     else:
-        if extra_ids:
-            raise InvalidMove(
-                "この演算子は１枚だけ使えます。"
-            )
+        if extras:
+            raise InvalidMove("この演算子は１枚だけ使えます。")
 
         if card_id.startswith("lim"):
-            changed = take_limit(
-                original, card_id
-            )
+            changed = take_limit(original, card_id)
 
             if changed is None:
-                after = cleaned(
-                    before[:index]
-                    + before[index + 1:]
-                )
-
                 return (
-                    after,
-                    expression_text(original)
-                    + "の極限が発散 → 基底を消去"
+                    cleaned(before[:index] + before[index + 1:]),
+                    text(original) + "の極限が発散 → 基底を消去"
                 )
 
         elif card_id == "sqrt":
@@ -1086,9 +801,7 @@ def transform(
             changed = sp.log(original)
 
         else:
-            raise InvalidMove(
-                "未対応のカードです。"
-            )
+            raise InvalidMove("未対応のカードです。")
 
     changed = check_real(changed)
 
@@ -1096,11 +809,7 @@ def transform(
     after[index] = changed
     after = cleaned(after)
 
-    detail = (
-        expression_text(original)
-        + " → "
-        + expression_text(changed)
-    )
+    detail = text(original) + " → " + text(changed)
 
     if changed == 0:
         detail += "（0になったため消去）"
@@ -1110,34 +819,14 @@ def transform(
     return after, detail
 
 
-def history_text(
-    turn,
-    actor,
-    side,
-    cards,
-    before,
-    index,
-    after,
-    detail,
-    reverse=False
-):
-    owner = (
-        "あなた"
-        if side == "human"
-        else "相手"
-    )
-
-    used = " ＋ ".join(
-        "「" + label(card_id) + "」"
-        for card_id in cards
-    )
+def history(actor, side, cards, before, index, after, detail, reverse=False):
+    owner = "あなた" if side == "human" else "相手"
+    used = " ＋ ".join("「" + label(card_id) + "」" for card_id in cards)
 
     target = (
         "場全体"
         if index is None
-        else "基底「"
-        + expression_text(before[index])
-        + "」"
+        else "基底「" + text(before[index]) + "」"
     )
 
     direction = (
@@ -1147,175 +836,114 @@ def history_text(
     )
 
     return (
-        str(turn)
-        + "手目・"
-        + actor
-        + "\n使用カード："
-        + used
-        + direction
-        + "\n対象："
-        + owner
-        + "の場の"
-        + target
-        + "\n操作結果："
-        + detail
-        + "\n操作後の"
-        + owner
-        + "の場："
-        + field_text(after)
+        str(game["turn"]) + "手目・" + actor +
+        "\n使用カード：" + used + direction +
+        "\n対象：" + owner + "の場の" + target +
+        "\n操作結果：" + detail +
+        "\n操作後の場：" + field_text(after)
     )
-
-
-def make_deck():
-    deck = []
-
-    for card_id, copies in COPIES.items():
-        deck.extend(
-            [card_id] * copies
-        )
-
-    random.shuffle(deck)
-    return deck
 
 
 def draw(player, amount):
     for _ in range(amount):
         if not game["deck"]:
             break
-
-        game["hands"][player].append(
-            game["deck"].pop()
-        )
+        game["hands"][player].append(game["deck"].pop())
 
 
 def spend(player, indices):
     unique = set(indices)
 
-    for index in sorted(
-        unique, reverse=True
-    ):
-        card_id = game["hands"][player].pop(
-            index
-        )
-
-        game["discard"].append(
-            card_id
-        )
+    for index in sorted(unique, reverse=True):
+        game["discard"].append(game["hands"][player].pop(index))
 
     draw(player, len(unique))
 
 
 def ending():
     if not game["fields"]["ai"]:
-        game["gameOver"] = True
-
-        return (
-            "勝利！ 相手の場が"
-            "0次元になりました。"
-        )
+        game["over"] = True
+        return "勝利！ 相手の場が0次元になりました。"
 
     if not game["fields"]["human"]:
-        game["gameOver"] = True
-
-        return (
-            "敗北。あなたの場が"
-            "0次元になりました。"
-        )
+        game["over"] = True
+        return "敗北。あなたの場が0次元になりました。"
 
     if not game["deck"]:
-        game["gameOver"] = True
-
+        game["over"] = True
         own = len(game["fields"]["human"])
-        opponent = len(game["fields"]["ai"])
+        enemy = len(game["fields"]["ai"])
 
-        if own > opponent:
+        if own > enemy:
             outcome = "あなたの勝利"
-        elif own < opponent:
+        elif own < enemy:
             outcome = "相手の勝利"
         else:
             outcome = "引き分け（試作ルール）"
 
         return (
-            "山札終了："
-            + outcome
-            + "。あなた"
-            + str(own)
-            + "次元、相手"
-            + str(opponent)
-            + "次元。"
+            "山札終了：" + outcome +
+            "。あなた" + str(own) +
+            "次元、相手" + str(enemy) + "次元。"
         )
 
     return None
 
 
-def state_for_browser():
+def browser_state():
     return {
         "deck": len(game["deck"]),
         "discard": len(game["discard"]),
-        "aiHand": len(
-            game["hands"]["ai"]
-        ),
+        "aiHand": len(game["hands"]["ai"]),
         "difficulty": game["difficulty"],
-
         "hand": [
             {
                 "id": card_id,
                 "kind": kind(card_id),
-                "label": label(card_id),
-                "tex": META[card_id][1]
+                "label": label(card_id)
             }
-            for card_id in
-            game["hands"]["human"]
+            for card_id in game["hands"]["human"]
         ],
-
         "fields": {
             side: [
-                sp.latex(value)
-                for value in
-                game["fields"][side]
+                {
+                    "tex": sp.latex(value),
+                    "plain": text(value)
+                }
+                for value in game["fields"][side]
             ]
             for side in ("human", "ai")
         },
-
         "log": game["log"][:40],
-        "gameOver": game["gameOver"]
+        "gameOver": game["over"]
     }
 
 
-def reset_game(difficulty):
+def reset(difficulty):
     global game
 
     if difficulty not in NAMES:
-        raise InvalidMove(
-            "難易度を選んでください。"
-        )
+        raise InvalidMove("難易度を選んでください。")
+
+    deck = [
+        card_id
+        for card_id, amount in COPIES.items()
+        for _ in range(amount)
+    ]
+    random.shuffle(deck)
 
     game = {
-        "deck": make_deck(),
+        "deck": deck,
         "discard": [],
-
-        "hands": {
-            "human": [],
-            "ai": []
-        },
-
+        "hands": {"human": [], "ai": []},
         "fields": {
-            "human": [
-                sp.Integer(1),
-                x,
-                x**2
-            ],
-            "ai": [
-                sp.Integer(1),
-                x,
-                x**2
-            ]
+            "human": [sp.Integer(1), x, x**2],
+            "ai": [sp.Integer(1), x, x**2]
         },
-
         "difficulty": difficulty,
         "turn": 1,
         "phase": "human",
-        "gameOver": False,
+        "over": False,
         "plan": None,
         "planned": False,
         "log": []
@@ -1325,107 +953,63 @@ def reset_game(difficulty):
     draw("ai", 7)
 
 
-def validate_selection(
-    hand,
-    selected,
-    extras
-):
+def validate_indices(hand, selected, extras):
     if (
         not isinstance(selected, int)
         or isinstance(selected, bool)
         or selected < 0
         or selected >= len(hand)
     ):
-        raise InvalidMove(
-            "先にカードを選んでください。"
-        )
-
-    if not isinstance(extras, list):
-        raise InvalidMove(
-            "追加カードの指定が不正です。"
-        )
+        raise InvalidMove("先に手札を選んでください。")
 
     if (
-        any(
+        not isinstance(extras, list)
+        or any(
             not isinstance(i, int)
             or isinstance(i, bool)
             or i < 0
             or i >= len(hand)
             for i in extras
         )
-        or len(set(extras)) != len(extras)
+        or len(extras) != len(set(extras))
         or selected in extras
     ):
-        raise InvalidMove(
-            "追加カードの指定が不正です。"
-        )
-
-    return (
-        hand[selected],
-        [hand[i] for i in extras]
-    )
+        raise InvalidMove("追加カードの指定が不正です。")
 
 
 def human_play(request):
-    if game is None or game["gameOver"]:
-        raise InvalidMove(
-            "ゲームは終了しています。"
-        )
+    if game is None or game["over"]:
+        raise InvalidMove("ゲームは終了しています。")
 
     if game["phase"] != "human":
-        raise InvalidMove(
-            "現在は相手のターンです。"
-        )
+        raise InvalidMove("現在は相手のターンです。")
 
-    hand = game["hands"]["human"]
-    selected = request.get("selected")
-    extras = request.get("extras", [])
     side = request.get("side")
     index = request.get("index")
+    selected = request.get("selected")
+    extras = request.get("extras", [])
+    reverse = request.get("reverseDivide") is True
 
     if side not in ("human", "ai"):
-        raise InvalidMove(
-            "対象の場を選んでください。"
-        )
+        raise InvalidMove("対象の場を選んでください。")
 
-    card_id, extra_ids = validate_selection(
-        hand, selected, extras
-    )
+    hand = game["hands"]["human"]
+    validate_indices(hand, selected, extras)
 
-    before = list(
-        game["fields"][side]
-    )
-
-    reverse = (
-        request.get("reverseDivide")
-        is True
-    )
+    cards = [hand[i] for i in [selected] + extras]
+    before = list(game["fields"][side])
 
     after, detail = transform(
-        card_id,
-        before,
-        index,
-        extra_ids,
-        reverse
+        cards[0], before, index, cards[1:], reverse
     )
 
-    entry = history_text(
-        game["turn"],
-        "あなた",
-        side,
-        [card_id] + extra_ids,
-        before,
-        index,
-        after,
-        detail,
-        reverse
+    entry = history(
+        "あなた", side, cards, before,
+        index, after, detail, reverse
     )
 
     game["fields"][side] = after
-    spend(
-        "human",
-        [selected] + extras
-    )
+    spend("human", [selected] + extras)
     game["log"].insert(0, entry)
 
     message = ending()
@@ -1435,49 +1019,35 @@ def human_play(request):
         return message
 
     game["phase"] = "ai"
-    game["plan"] = None
     game["planned"] = False
-
-    return (
-        "あなたの操作が確定しました。"
-        "相手のターンです。"
-    )
+    return "あなたの操作を表示しました。"
 
 
 def ai_candidates():
     hand = game["hands"]["ai"]
 
-    for card_index, card_id in enumerate(
-        hand
-    ):
+    for chosen, card_id in enumerate(hand):
         category = kind(card_id)
 
         for side in ("human", "ai"):
-            field = game["fields"][side]
+            before = game["fields"][side]
 
-            indices = (
+            targets = (
                 [None]
-                if category in
-                ("function", "global")
-                else range(len(field))
+                if category in ("function", "global")
+                else range(len(before))
             )
 
-            for index in indices:
-                choices = [([], False)]
+            for index in targets:
+                options = [([], False)]
 
                 if category == "combine":
                     factors = [
-                        i
-                        for i, other in
-                        enumerate(hand)
-                        if (
-                            i != card_index
-                            and kind(other)
-                            == "function"
-                        )
+                        i for i, other in enumerate(hand)
+                        if i != chosen and kind(other) == "function"
                     ]
 
-                    choices = [
+                    options = [
                         ([i], reverse)
                         for i in factors
                         for reverse in (
@@ -1489,326 +1059,138 @@ def ai_candidates():
 
                 elif category == "repeat":
                     same = [
-                        i
-                        for i, other in
-                        enumerate(hand)
-                        if (
-                            i != card_index
-                            and other == card_id
+                        i for i, other in enumerate(hand)
+                        if i != chosen and other == card_id
+                    ]
+                    options += [([i], False) for i in same[:2]]
+
+                for extras, reverse in options:
+                    try:
+                        after, detail = transform(
+                            card_id,
+                            before,
+                            index,
+                            [hand[i] for i in extras],
+                            reverse
                         )
-                    ]
+                    except Exception:
+                        continue
 
-                    choices += [
-                        ([i], False)
-                        for i in same[:2]
-                    ]
-
-                for extras, reverse in choices:
                     yield {
-                        "card_index": card_index,
+                        "chosen": chosen,
+                        "extras": extras,
+                        "reverse": reverse,
                         "side": side,
                         "index": index,
-                        "extras": extras,
-                        "reverse": reverse
+                        "after": after,
+                        "detail": detail
                     }
 
 
-def base_score(candidate):
-    side = candidate["side"]
-    old = len(game["fields"][side])
-    new = len(candidate["after"])
+def choose_ai():
+    options = list(ai_candidates())
 
-    if side == "human":
-        if new == 0:
-            return 100000
-
-        return (old - new) * 100
-
-    defense_weight = (
-        8
-        if game["difficulty"] == "normal"
-        else 55
-    )
-
-    return (
-        new - old
-    ) * defense_weight
-
-
-def imagined_reply(fields):
-    """
-    超級の限定的な先読み。
-    プレイヤーの実際の手札は参照しない。
-    """
-    imagined = [
-        "nabla", "triangle",
-        "derive", "integrate",
-        "limPlus", "limMinus",
-        "lim0", "limsup", "liminf",
-        "sqrt", "log",
-        "zero", "one", "x", "x2",
-        "sin", "cos", "exp"
-    ]
-
-    worst = 0
-    trials = 0
-
-    for side in ("ai", "human"):
-        before = fields[side]
-
-        for card_id in imagined:
-            category = kind(card_id)
-
-            indices = (
-                [None]
-                if category in
-                ("function", "global")
-                else range(len(before))
-            )
-
-            for index in indices:
-                if (
-                    card_id == "integrate"
-                    and index is not None
-                    and sp.count_ops(
-                        before[index]
-                    ) > 6
-                ):
-                    continue
-
-                trials += 1
-
-                if trials > 55:
-                    return worst
-
-                try:
-                    after, _ = transform(
-                        card_id,
-                        before,
-                        index
-                    )
-                except Exception:
-                    continue
-
-                if side == "ai":
-                    risk = (
-                        len(before)
-                        - len(after)
-                    ) * 100
-
-                    if not after:
-                        risk += 10000
-                else:
-                    risk = (
-                        len(after)
-                        - len(before)
-                    ) * 55
-
-                worst = max(
-                    worst, risk
-                )
-
-    return worst
-
-
-def choose_ai_plan():
-    choices = list(
-        ai_candidates()
-    )
-
-    random.shuffle(choices)
-    evaluated = []
-
-    for choice in choices:
-        hand = game["hands"]["ai"]
-        card_id = hand[
-            choice["card_index"]
-        ]
-
-        extra_ids = [
-            hand[i]
-            for i in choice["extras"]
-        ]
-
-        try:
-            after, detail = transform(
-                card_id,
-                game["fields"][
-                    choice["side"]
-                ],
-                choice["index"],
-                extra_ids,
-                choice["reverse"]
-            )
-        except Exception:
-            continue
-
-        candidate = dict(choice)
-        candidate["after"] = after
-        candidate["detail"] = detail
-
-        if game["difficulty"] == "easy":
-            return candidate
-
-        candidate["score"] = base_score(
-            candidate
-        )
-
-        evaluated.append(
-            candidate
-        )
-
-        if candidate["score"] == 100000:
-            return candidate
-
-    if not evaluated:
+    if not options:
         return None
 
-    evaluated.sort(
-        key=lambda item: item["score"],
-        reverse=True
-    )
+    difficulty = game["difficulty"]
 
-    if game["difficulty"] != "expert":
-        return evaluated[0]
+    if difficulty == "easy":
+        return random.choice(options)
 
-    best = None
-    best_value = None
+    def score(move):
+        side = move["side"]
+        old = len(game["fields"][side])
+        new = len(move["after"])
 
-    for candidate in evaluated[:3]:
-        hypothetical = {
-            "human": (
-                candidate["after"]
-                if candidate["side"]
-                == "human"
-                else game["fields"]["human"]
-            ),
-            "ai": (
-                candidate["after"]
-                if candidate["side"]
-                == "ai"
-                else game["fields"]["ai"]
-            )
-        }
+        if side == "human":
+            if new == 0:
+                return 100000
+            return (old - new) * 100
 
-        risk = imagined_reply(
-            hypothetical
-        )
+        defense = 15 if difficulty == "normal" else 60
+        return (new - old) * defense
 
-        value = (
-            candidate["score"]
-            - risk
-        )
+    if difficulty == "expert":
+        def expert_score(move):
+            value = score(move)
 
-        if best is None or value > best_value:
-            best = candidate
-            best_value = value
+            if (
+                move["side"] == "ai"
+                and len(move["after"]) >
+                len(game["fields"]["ai"])
+            ):
+                value += 30
 
-    return best
+            return value
+
+        return max(options, key=expert_score)
+
+    return max(options, key=score)
 
 
-def prepare_ai():
-    if game is None or game["gameOver"]:
-        raise InvalidMove(
-            "ゲームは終了しています。"
-        )
-
-    if game["phase"] != "ai":
-        raise InvalidMove(
-            "現在は相手のターンではありません。"
-        )
+def ai_plan():
+    if game is None or game["phase"] != "ai":
+        raise InvalidMove("現在は相手のターンではありません。")
 
     if not game["planned"]:
-        game["plan"] = choose_ai_plan()
+        game["plan"] = choose_ai()
         game["planned"] = True
 
-    plan = game["plan"]
+    move = game["plan"]
 
-    if plan is None:
+    if move is None:
         return None
 
     hand = game["hands"]["ai"]
 
-    indices = (
-        [plan["card_index"]]
-        + plan["extras"]
-    )
-
     return {
-        "side": plan["side"],
-        "index": plan["index"],
+        "side": move["side"],
+        "index": move["index"],
         "cards": [
-            {
-                "index": i,
-                "label": label(hand[i])
-            }
-            for i in indices
+            label(hand[i])
+            for i in [move["chosen"]] + move["extras"]
         ]
     }
 
 
-def commit_ai():
-    if game is None or game["gameOver"]:
-        raise InvalidMove(
-            "ゲームは終了しています。"
-        )
+def ai_commit():
+    if (
+        game is None
+        or game["phase"] != "ai"
+        or not game["planned"]
+    ):
+        raise InvalidMove("相手の操作はまだ準備できていません。")
 
-    if game["phase"] != "ai":
-        raise InvalidMove(
-            "現在は相手のターンではありません。"
-        )
+    move = game["plan"]
 
-    if not game["planned"]:
-        raise InvalidMove(
-            "相手の手がまだ準備されていません。"
-        )
-
-    plan = game["plan"]
-
-    if plan is None:
+    if move is None:
         game["log"].insert(
             0,
-            str(game["turn"])
-            + "手目・相手\n"
-            + "実行可能な操作なし"
+            str(game["turn"]) +
+            "手目・相手\n実行可能な操作なし"
         )
-
     else:
-        side = plan["side"]
-        before = list(
-            game["fields"][side]
-        )
-        after = plan["after"]
+        side = move["side"]
+        before = list(game["fields"][side])
+        after = move["after"]
+        used = [move["chosen"]] + move["extras"]
+        cards = [game["hands"]["ai"][i] for i in used]
 
-        used = (
-            [plan["card_index"]]
-            + plan["extras"]
-        )
-
-        hand = game["hands"]["ai"]
-
-        cards = [
-            hand[i]
-            for i in used
-        ]
-
-        entry = history_text(
-            game["turn"],
+        entry = history(
             "相手",
             side,
             cards,
             before,
-            plan["index"],
+            move["index"],
             after,
-            plan["detail"],
-            plan["reverse"]
+            move["detail"],
+            move["reverse"]
         )
 
         game["fields"][side] = after
         spend("ai", used)
-        game["log"].insert(
-            0, entry
-        )
+        game["log"].insert(0, entry)
 
     game["plan"] = None
     game["planned"] = False
@@ -1821,93 +1203,56 @@ def commit_ai():
 
     game["turn"] += 1
     game["phase"] = "human"
-
-    return (
-        "あなたの番です。"
-        "手札からカードを選んでください。"
-    )
+    return "あなたの番です。"
 
 
-def handle(request_json):
+def handle(raw):
     try:
-        request = json.loads(
-            request_json
-        )
-
+        request = json.loads(raw)
         action = request.get("action")
 
         if action == "reset":
-            difficulty = request.get(
-                "difficulty",
-                "normal"
-            )
+            difficulty = request.get("difficulty", "normal")
+            reset(difficulty)
 
-            reset_game(difficulty)
-
-            return json.dumps(
-                {
-                    "state": state_for_browser(),
-                    "message": (
-                        NAMES[difficulty]
-                        + "で開始しました。"
-                        + "あなたの番です。"
-                    )
-                },
-                ensure_ascii=False
-            )
+            return json.dumps({
+                "state": browser_state(),
+                "message": (
+                    NAMES[difficulty] +
+                    "で開始しました。あなたの番です。"
+                )
+            }, ensure_ascii=False)
 
         if action == "human_play":
-            message = human_play(
-                request
-            )
-
-            return json.dumps(
-                {
-                    "state": state_for_browser(),
-                    "message": message
-                },
-                ensure_ascii=False
-            )
+            message = human_play(request)
+            return json.dumps({
+                "state": browser_state(),
+                "message": message
+            }, ensure_ascii=False)
 
         if action == "ai_plan":
-            move = prepare_ai()
-
-            return json.dumps(
-                {"move": move},
-                ensure_ascii=False
-            )
+            return json.dumps({
+                "move": ai_plan()
+            }, ensure_ascii=False)
 
         if action == "ai_commit":
-            message = commit_ai()
+            message = ai_commit()
+            return json.dumps({
+                "state": browser_state(),
+                "message": message
+            }, ensure_ascii=False)
 
-            return json.dumps(
-                {
-                    "state": state_for_browser(),
-                    "message": message
-                },
-                ensure_ascii=False
-            )
-
-        raise InvalidMove(
-            "不明な操作です。"
-        )
+        raise InvalidMove("不明な操作です。")
 
     except InvalidMove as error:
-        return json.dumps(
-            {"error": str(error)},
-            ensure_ascii=False
-        )
+        return json.dumps({
+            "error": str(error)
+        }, ensure_ascii=False)
 
     except Exception as error:
-        return json.dumps(
-            {
-                "error": (
-                    "処理を完了できませんでした："
-                    + str(error)[:150]
-                )
-            },
-            ensure_ascii=False
-        )
+        return json.dumps({
+            "error": "処理を完了できませんでした：" + str(error)[:150]
+        }, ensure_ascii=False)
 </script>
 
 <script>
@@ -1915,16 +1260,8 @@ def handle(request_json):
   "use strict";
 
   const $ = id => document.getElementById(id);
-
   const sleep = ms =>
     new Promise(resolve => setTimeout(resolve, ms));
-
-  const nextPaint = () =>
-    new Promise(resolve => {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(resolve);
-      });
-    });
 
   const names = {
     easy: "初級",
@@ -1933,262 +1270,392 @@ def handle(request_json):
     expert: "超級"
   };
 
-  let pyodide;
+  // \limits で極限の条件を記号の真下に表示する。
+  const cardTex = {
+    cos: "\\cos x",
+    sin: "\\sin x",
+    exp: "e^x",
+    x: "x",
+    x2: "x^2",
+    one: "1",
+    zero: "0",
+    nabla: "\\nabla",
+    triangle: "\\triangle",
+    derive: "\\dfrac{d}{dx}",
+    integrate: "\\int",
+    multiply: "\\times",
+    divide: "\\div",
+    limPlus: "\\displaystyle\\lim\\limits_{x\\to+\\infty}",
+    limMinus: "\\displaystyle\\lim\\limits_{x\\to-\\infty}",
+    lim0: "\\displaystyle\\lim\\limits_{x\\to0}",
+    limsup: "\\displaystyle\\limsup\\limits_{x\\to+\\infty}",
+    liminf: "\\displaystyle\\liminf\\limits_{x\\to+\\infty}",
+    sqrt: "\\sqrt{\\phantom{x}}",
+    log: "\\log"
+  };
+
+  const descriptions = {
+    cos: "cos x を基底として場に追加します。",
+    sin: "sin x を基底として場に追加します。",
+    exp: "e^x を基底として場に追加します。",
+    x: "x を基底として場に追加します。",
+    x2: "x² を基底として場に追加します。",
+    one: "1 を基底として場に追加します。",
+    zero: "0 を場に追加します。0の基底は残りません。",
+    nabla: "選んだ場のすべての基底を1回微分します。",
+    triangle: "選んだ場のすべての基底を2回微分します。",
+    derive: "選んだ基底を微分します。同じカードを追加すると連続で微分できます。",
+    integrate: "選んだ基底を積分します。同じカードを追加すると連続で積分できます。",
+    multiply: "選んだ基底に、追加選択した関数カードを掛けます。",
+    divide: "選んだ基底と追加選択した関数カードで割り算します。",
+    limPlus: "選んだ基底の、x→+∞での極限を取ります。",
+    limMinus: "選んだ基底の、x→−∞での極限を取ります。",
+    lim0: "選んだ基底の、x→0での極限を取ります。",
+    limsup: "選んだ基底の、x→+∞での上極限を取ります。",
+    liminf: "選んだ基底の、x→+∞での下極限を取ります。",
+    sqrt: "選んだ基底の平方根を取ります。",
+    log: "選んだ基底の対数を取ります。"
+  };
+
+  let pyodide = null;
   let ready = false;
   let state = null;
-  let primary = null;
+  let selected = null;
   let extras = [];
   let busy = false;
   let mathQueue = Promise.resolve();
+  let rulesTypeset = false;
 
-  function setStatus(message) {
-    $("status").textContent = message;
+  function status(message) {
     $("notice").textContent = message;
+    $("status").textContent = message;
   }
 
-  function element(
-    tag,
-    className = "",
-    text = ""
-  ) {
-    const node = document.createElement(tag);
-    node.className = className;
-    node.textContent = text;
-    return node;
+  function node(tag, className = "", text = "") {
+    const item = document.createElement(tag);
+    item.className = className;
+    item.textContent = text;
+    return item;
   }
 
-  function actionButton(
-    className,
-    callback
-  ) {
-    const node = element(
-      "button",
-      className
-    );
+  function button(className, callback) {
+    const item = node("button", className);
+    item.type = "button";
 
-    node.type = "button";
-
-    node.disabled =
+    item.disabled =
       busy ||
       !state ||
       state.gameOver ||
       !$("menuOverlay").hidden;
 
-    node.addEventListener(
-      "click",
-      callback
-    );
-
-    return node;
+    item.addEventListener("click", callback);
+    return item;
   }
 
-  function card(
-    top,
-    middle,
-    bottom,
-    className,
-    callback
-  ) {
-    const node = actionButton(
-      "playing-card " + className,
-      callback
+  function card(top, tex, fallback, bottom, className, callback) {
+    const item = button("playing-card " + className, callback);
+    const symbol = node("span", "card-symbol", fallback);
+
+    symbol.dataset.tex = tex;
+    symbol.dataset.fallback = fallback;
+
+    item.append(
+      node("span", "card-top", top),
+      symbol,
+      node("span", "card-bottom", bottom)
     );
 
-    node.append(
-      element(
-        "span",
-        "card-top",
-        top
-      ),
-      element(
-        "span",
-        "card-symbol",
-        "\$" + middle + "\$"
-      ),
-      element(
-        "span",
-        "card-bottom",
-        bottom
-      )
-    );
-
-    return node;
+    return item;
   }
 
-  function count(title, value) {
-    const node = element(
-      "div",
-      "counter"
+  function counter(title, value) {
+    const item = node("div", "counter");
+
+    item.append(
+      node("span", "", title),
+      node("strong", "", String(value))
     );
 
-    node.append(
-      element("span", "", title),
-      element(
-        "strong",
-        "",
-        String(value)
-      )
-    );
-
-    return node;
+    return item;
   }
 
-  function togglePanel(
-    panelId,
-    buttonId,
-    title
-  ) {
+  function toggle(panelId, buttonId, name) {
     const panel = $(panelId);
-    const button = $(buttonId);
+    const control = $(buttonId);
 
     panel.hidden = !panel.hidden;
 
-    button.setAttribute(
+    control.setAttribute(
       "aria-expanded",
       String(!panel.hidden)
     );
 
-    button.textContent =
-      title +
-      (panel.hidden ? "を開く" : "を閉じる");
+    control.textContent =
+      name + (panel.hidden ? "を開く" : "を閉じる");
   }
 
-  function typeset(nodes) {
-    /*
-     * 数式描画を処理待ちにします。
-     * MathJaxが読み込めない場合も、
-     * ゲーム開始自体は止めません。
-     */
-    mathQueue = mathQueue
-      .catch(() => {})
-      .then(async () => {
-        if (
-          typeof window.MathJax?.typesetPromise
-          !== "function"
-        ) {
-          return;
-        }
-
-        await window.MathJax.typesetPromise(
-          nodes
-        );
-      })
-      .catch(error => {
-        console.warn(
-          "数式表示:",
-          error
-        );
-      });
+  function fallbackMath(value) {
+    return value
+      .replaceAll("**2", "²")
+      .replaceAll("**3", "³")
+      .replaceAll("^2", "²")
+      .replaceAll("^3", "³");
   }
 
-  function render(changed = []) {
-    if (!state) return;
+  function hideExplanation() {
+    $("cardExplanation").hidden = true;
+  }
 
-    const fields = $("fields");
-    const hand = $("hand");
+  function explanationText() {
+    if (selected === null || !state) return "";
 
-    fields.replaceChildren();
-    hand.replaceChildren();
+    const item = state.hand[selected];
+    let message =
+      "【" + item.label + "】 " + descriptions[item.id];
 
-    $("counts").replaceChildren(
-      count("山札", state.deck + "枚"),
-      count(
-        "捨て札",
-        state.discard + "枚"
-      ),
-      count(
-        "相手の手札",
-        state.aiHand + "枚"
-      ),
-      count(
-        "あなたの手札",
-        state.hand.length + "枚"
-      ),
-      count(
-        "難易度",
-        names[state.difficulty]
-        || "不明"
+    if (
+      item.kind === "function" ||
+      item.kind === "global"
+    ) {
+      return message +
+        " 次に、対象の場の「この場に実行」を押してください。";
+    }
+
+    if (item.kind === "combine") {
+      const factors = extras.map(
+        index => state.hand[index].label
+      );
+
+      message += factors.length
+        ? " 選択した関数：" + factors.join("、") + "。"
+        : " まず関数カードを選んでください。";
+
+      if (item.id === "divide") {
+        message += $("reverseDivide").checked
+          ? " 現在は「関数÷基底」です。"
+          : " 現在は「基底÷関数」です。";
+      }
+
+      return message + " 次に対象の基底を押してください。";
+    }
+
+    if (item.kind === "repeat") {
+      message +=
+        " 使用枚数：" + (1 + extras.length) + "枚。";
+    }
+
+    return message + " 次に対象の基底を押してください。";
+  }
+
+  /*
+   * 幅を確定させてから高さを測り、
+   * 最大16pxから順に小さくして２行以内を目指す。
+   * 最小4pxでも収まらない場合は、文章を隠さず全文表示する。
+   */
+  function fitExplanationText(popup) {
+    for (let size = 16; size >= 4; size -= 0.5) {
+      popup.style.fontSize = size + "px";
+
+      const style = getComputedStyle(popup);
+      const verticalExtras =
+        parseFloat(style.paddingTop) +
+        parseFloat(style.paddingBottom) +
+        parseFloat(style.borderTopWidth) +
+        parseFloat(style.borderBottomWidth);
+
+      const textHeight = popup.getBoundingClientRect().height -
+        verticalExtras;
+
+      const twoLines = parseFloat(style.lineHeight) * 2;
+
+      if (textHeight <= twoLines + 1) {
+        return;
+      }
+    }
+  }
+
+  function positionExplanation() {
+    const popup = $("cardExplanation");
+
+    if (
+      popup.hidden ||
+      selected === null ||
+      !state ||
+      !$("menuOverlay").hidden
+    ) {
+      return;
+    }
+
+    const target =
+      $("hand").querySelectorAll(".playing-card")[selected];
+
+    if (!target) {
+      hideExplanation();
+      return;
+    }
+
+    fitExplanationText(popup);
+
+    const rect = target.getBoundingClientRect();
+    const width = popup.offsetWidth;
+    const height = popup.offsetHeight;
+
+    const left = Math.max(
+      10,
+      Math.min(
+        rect.left + rect.width / 2 - width / 2,
+        window.innerWidth - width - 10
       )
     );
 
-    $("opponentHand").replaceChildren();
+    const top = Math.max(
+      8,
+      rect.top - height - 10
+    );
 
-    for (
-      let i = 0;
-      i < state.aiHand;
-      i++
+    popup.style.left = left + "px";
+    popup.style.top = top + "px";
+  }
+
+  function showExplanation() {
+    if (
+      selected === null ||
+      !state ||
+      busy ||
+      !$("menuOverlay").hidden
     ) {
-      $("opponentHand").appendChild(
-        element(
-          "div",
-          "card-back",
-          "∇"
-        )
-      );
+      hideExplanation();
+      return;
     }
+
+    const popup = $("cardExplanation");
+    popup.textContent = explanationText();
+    popup.hidden = false;
+    positionExplanation();
+  }
+
+  function typesetCards() {
+    if (!window.MathJax?.typesetPromise) return;
+
+    const symbols = [
+      ...document.querySelectorAll(
+        "#fields .card-symbol, #hand .card-symbol"
+      )
+    ].filter(item =>
+      item.dataset.tex && !item.dataset.typeset
+    );
+
+    if (!symbols.length) return;
+
+    for (const item of symbols) {
+      item.dataset.typeset = "pending";
+      item.textContent = "\$" + item.dataset.tex + "\$";
+    }
+
+    mathQueue = mathQueue
+      .catch(() => {})
+      .then(async () => {
+        await MathJax.startup.promise;
+
+        const connected = symbols.filter(
+          item => item.isConnected
+        );
+
+        if (connected.length) {
+          await MathJax.typesetPromise(connected);
+        }
+
+        positionExplanation();
+      })
+      .catch(error => {
+        console.warn("数式表示:", error);
+
+        for (const item of symbols) {
+          if (item.isConnected) {
+            item.textContent =
+              fallbackMath(item.dataset.fallback || "");
+          }
+        }
+      });
+  }
+
+  function typesetRules() {
+    if (
+      rulesTypeset ||
+      !window.MathJax?.typesetPromise
+    ) return;
+
+    rulesTypeset = true;
+
+    mathQueue = mathQueue
+      .catch(() => {})
+      .then(async () => {
+        await MathJax.startup.promise;
+        await MathJax.typesetPromise([$("rulesBox")]);
+      })
+      .catch(error => {
+        console.warn("遊び方の数式表示:", error);
+        rulesTypeset = false;
+      });
+  }
+
+  function render() {
+    if (!state) return;
+
+    $("counts").replaceChildren(
+      counter("山札", state.deck + "枚"),
+      counter("捨て札", state.discard + "枚"),
+      counter("相手の手札", state.aiHand + "枚"),
+      counter("あなたの手札", state.hand.length + "枚"),
+      counter(
+        "難易度",
+        names[state.difficulty] || "不明"
+      )
+    );
+
+    const backs = $("opponentHand");
+    backs.replaceChildren();
+
+    for (let i = 0; i < state.aiHand; i++) {
+      backs.appendChild(node("div", "card-back", "∇"));
+    }
+
+    const fields = $("fields");
+    fields.replaceChildren();
 
     for (const [side, title] of [
       ["ai", "相手の場"],
       ["human", "あなたの場"]
     ]) {
-      const field = element(
+      const field = node(
         "section",
-        "field " +
-        (side === "ai"
-          ? "enemy "
-          : "") +
-        (changed.includes(side)
-          ? "field-flash"
-          : "")
+        "field" + (side === "ai" ? " enemy" : "")
       );
 
-      field.dataset.side = side;
-
-      const head = element(
-        "div",
-        "field-head"
-      );
-
-      const heading = element(
-        "h2",
-        "",
-        title
-      );
+      const head = node("div", "field-head");
+      const heading = node("h2", "", title);
 
       heading.appendChild(
-        element(
+        node(
           "span",
           "dimension",
-          state.fields[side].length
-          + "次元"
+          state.fields[side].length + "次元"
         )
       );
 
-      const whole = actionButton(
+      const whole = button(
         "control",
         () => play(side, null)
       );
 
-      whole.textContent =
-        "この場に実行";
+      whole.textContent = "この場に実行";
+      head.append(heading, whole);
 
-      head.append(
-        heading,
-        whole
-      );
-
-      const cards = element(
-        "div",
-        "cards"
-      );
+      const cards = node("div", "cards");
 
       if (!state.fields[side].length) {
         cards.appendChild(
-          element(
-            "div",
-            "empty",
-            "基底なし"
-          )
+          node("div", "empty", "基底なし")
         );
       }
 
@@ -2199,38 +1666,32 @@ def handle(request_json):
               side === "ai"
                 ? "相手の基底"
                 : "自分の基底",
-              expression,
+              expression.tex,
+              fallbackMath(expression.plain),
               "基底 " + (index + 1),
-              (side === "ai"
+              side === "ai"
                 ? "enemy-card"
-                : "mine-card")
-              + (changed.includes(side)
-                ? " changed"
-                : ""),
-              () => play(
-                side, index
-              )
+                : "mine-card",
+              () => play(side, index)
             )
           );
         }
       );
 
-      field.append(
-        head,
-        cards
-      );
-
-      fields.appendChild(
-        field
-      );
+      field.append(head, cards);
+      fields.appendChild(field);
     }
+
+    const hand = $("hand");
+    hand.replaceChildren();
+
     state.hand.forEach((item, index) => {
-      const className =
+      const styles =
         "hand-card" +
         (item.id.startsWith("lim")
           ? " limit-card"
           : "") +
-        (index === primary
+        (selected === index
           ? " selected"
           : "") +
         (extras.includes(index)
@@ -2242,9 +1703,10 @@ def handle(request_json):
           item.kind === "function"
             ? "関数"
             : "演算子",
-          item.tex,
+          cardTex[item.id] || item.label,
+          item.label,
           "手札 " + (index + 1),
-          className,
+          styles,
           () => choose(index)
         )
       );
@@ -2254,16 +1716,11 @@ def handle(request_json):
     log.replaceChildren();
 
     if (!state.log.length) {
-      log.textContent =
-        "まだ操作はありません。";
+      log.textContent = "まだ操作はありません。";
     } else {
       for (const entry of state.log) {
         log.appendChild(
-          element(
-            "div",
-            "log-entry",
-            entry
-          )
+          node("div", "log-entry", entry)
         );
       }
     }
@@ -2273,74 +1730,51 @@ def handle(request_json):
       state.gameOver ||
       !$("menuOverlay").hidden;
 
-    $("reset").disabled =
-      busy || !ready;
-
+    $("reset").disabled = busy || !ready;
     $("openMenu").disabled = busy;
     $("quickRules").disabled = busy;
 
-    typeset([fields, hand]);
+    typesetCards();
+    showExplanation();
   }
 
   function choose(index) {
-    if (
-      busy ||
-      !state ||
-      state.gameOver
-    ) {
-      return;
-    }
+    if (busy || !state || state.gameOver) return;
 
     const item = state.hand[index];
 
-    if (primary === index) {
-      primary = null;
+    if (selected === index) {
+      selected = null;
       extras = [];
-
-      setStatus(
-        "選択を解除しました。"
-      );
-
+      hideExplanation();
+      status("選択を解除しました。");
       render();
       return;
     }
 
-    if (primary !== null) {
-      const main =
-        state.hand[primary];
+    if (selected !== null) {
+      const main = state.hand[selected];
 
-      const factor =
+      const isFactor =
         main.kind === "combine" &&
         item.kind === "function";
 
-      const repeat =
-        ["derive", "integrate"]
-          .includes(main.id) &&
+      const isRepeat =
+        ["derive", "integrate"].includes(main.id) &&
         item.id === main.id;
 
-      if (factor || repeat) {
+      if (isFactor || isRepeat) {
         extras = extras.includes(index)
           ? extras.filter(i => i !== index)
           : [...extras, index];
-
-        setStatus(
-          "対象の基底を押してください。"
-        );
 
         render();
         return;
       }
     }
 
-    primary = index;
+    selected = index;
     extras = [];
-
-    setStatus(
-      item.kind === "combine"
-        ? "使う関数カードを選び、対象の基底を押してください。"
-        : "対象の場または基底を押してください。"
-    );
-
     render();
   }
 
@@ -2350,180 +1784,16 @@ def handle(request_json):
       JSON.stringify(request)
     );
 
-    const result =
-      await pyodide.runPythonAsync(
-        "handle(browser_request_json)"
-      );
-
-    return JSON.parse(result);
-  }
-
-  function differences(before, after) {
-    return ["human", "ai"].filter(
-      side =>
-        JSON.stringify(
-          before.fields[side]
-        ) !==
-        JSON.stringify(
-          after.fields[side]
-        )
-    );
-  }
-
-  async function fly(
-    source,
-    target,
-    label,
-    enemy = false
-  ) {
-    if (
-      !source ||
-      !target ||
-      matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches
-    ) {
-      await sleep(80);
-      return;
-    }
-
-    const from =
-      source.getBoundingClientRect();
-
-    const to =
-      target.getBoundingClientRect();
-
-    const node = element(
-      "div",
-      "fly-card" +
-      (enemy ? " enemy-fly" : ""),
-      label
+    const raw = await pyodide.runPythonAsync(
+      "handle(browser_request_json)"
     );
 
-    const startX =
-      from.left + from.width / 2;
-
-    const startY =
-      from.top + from.height / 2;
-
-    const endX =
-      to.left + to.width / 2;
-
-    const endY =
-      to.top + to.height / 2;
-
-    node.style.left =
-      (startX - 48) + "px";
-
-    node.style.top =
-      (startY - 64) + "px";
-
-    node.style.setProperty(
-      "--dx",
-      (endX - startX) + "px"
-    );
-
-    node.style.setProperty(
-      "--dy",
-      (endY - startY) + "px"
-    );
-
-    document.body.appendChild(node);
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        node.classList.add("go");
-      });
-    });
-
-    await sleep(650);
-    node.remove();
-  }
-
-  function targetNode(side, index) {
-    const field =
-      document.querySelector(
-        `.field[data-side="${side}"]`
-      );
-
-    if (index === null) {
-      return field;
-    }
-
-    return (
-      field?.querySelectorAll(
-        ".playing-card"
-      )[index] ||
-      field
-    );
-  }
-
-  async function animateHuman(
-    side,
-    index,
-    used,
-    oldHand
-  ) {
-    const target =
-      targetNode(side, index);
-
-    const cards =
-      $("hand").querySelectorAll(
-        ".playing-card"
-      );
-
-    await Promise.all(
-      used.map(i =>
-        fly(
-          cards[i],
-          target,
-          oldHand[i]?.label || "カード"
-        )
-      )
-    );
-  }
-
-  async function animateAI(move) {
-    if (!move) {
-      setStatus(
-        "相手は実行可能な操作がありませんでした。"
-      );
-
-      await sleep(200);
-      return;
-    }
-
-    const backs =
-      $("opponentHand").querySelectorAll(
-        ".card-back"
-      );
-
-    const target = targetNode(
-      move.side,
-      move.index
-    );
-
-    setStatus(
-      "相手は「" +
-      move.cards
-        .map(card => card.label)
-        .join("」「") +
-      "」を使用！"
-    );
-
-    await Promise.all(
-      move.cards.map(item =>
-        fly(
-          backs[item.index] || backs[0],
-          target,
-          item.label,
-          true
-        )
-      )
-    );
+    return JSON.parse(raw);
   }
 
   function showResult(message) {
+    hideExplanation();
+
     $("resultTitle").textContent =
       message.startsWith("勝利") ||
       message.includes("あなたの勝利")
@@ -2533,143 +1803,104 @@ def handle(request_json):
           ? "敗北"
           : "ゲーム終了";
 
-    $("resultText").textContent =
-      message;
-
-    $("resultOverlay").hidden =
-      false;
+    $("resultText").textContent = message;
+    $("resultOverlay").hidden = false;
   }
 
   async function play(side, index) {
-    if (
-      busy ||
-      !state ||
-      state.gameOver
-    ) {
+    if (busy || !state || state.gameOver) return;
+
+    if (selected === null) {
+      status("先に手札を選んでください。");
       return;
     }
-
-    if (primary === null) {
-      setStatus(
-        "先に手札を選んでください。"
-      );
-
-      return;
-    }
-
-    const selected = primary;
-    const additional = [...extras];
 
     busy = true;
+    hideExplanation();
     render();
 
     try {
-      const answer = await python({
+      const result = await python({
         action: "human_play",
         side,
         index,
         selected,
-        extras: additional,
-        reverseDivide:
-          $("reverseDivide").checked
+        extras: [...extras],
+        reverseDivide: $("reverseDivide").checked
       });
 
-      if (answer.error) {
-        setStatus(
+      if (result.error) {
+        status(
           "操作できません：" +
-          answer.error +
+          result.error +
           "\nカードは消費していません。"
         );
-
         return;
       }
 
-      const before = state;
-
-      await animateHuman(
-        side,
-        index,
-        [selected, ...additional],
-        before.hand
-      );
-
-      state = answer.state;
-      primary = null;
+      state = result.state;
+      selected = null;
       extras = [];
 
-      render(
-        differences(before, state)
-      );
-
-      setStatus(
-        state.gameOver
-          ? answer.message
-          : "あなたの操作結果を表示しました。"
-      );
-
-      await nextPaint();
+      render();
+      status(result.message);
 
       if (state.gameOver) {
-        showResult(answer.message);
+        showResult(result.message);
         return;
       }
 
-      await sleep(1000);
-
-      setStatus(
-        "相手が考えています…"
+      // あなたの操作結果を描画してから相手のターンへ進む。
+      await new Promise(resolve =>
+        requestAnimationFrame(() =>
+          requestAnimationFrame(resolve)
+        )
       );
 
-      await nextPaint();
+      await sleep(1000);
+      status("相手が考えています…");
 
-      const plan = await python({
+      const planned = await python({
         action: "ai_plan"
       });
 
-      if (plan.error) {
-        throw new Error(
-          plan.error
-        );
+      if (planned.error) {
+        throw new Error(planned.error);
       }
 
-      await animateAI(plan.move);
+      if (planned.move) {
+        status(
+          "相手は" +
+          planned.move.cards
+            .map(name => "「" + name + "」")
+            .join("＋") +
+          "を使用しています…"
+        );
 
-      const beforeAI = state;
+        await sleep(400);
+      }
 
-      const committed =
-        await python({
-          action: "ai_commit"
-        });
+      const committed = await python({
+        action: "ai_commit"
+      });
 
       if (committed.error) {
-        throw new Error(
-          committed.error
-        );
+        throw new Error(committed.error);
       }
 
       state = committed.state;
-
-      render(
-        differences(beforeAI, state)
-      );
-
-      setStatus(
-        committed.message
-      );
+      render();
+      status(committed.message);
 
       if (state.gameOver) {
-        showResult(
-          committed.message
-        );
+        showResult(committed.message);
       }
 
     } catch (error) {
-      setStatus(
+      status(
         "処理を完了できませんでした：" +
-        error.message +
-        "\n必要に応じて最初からやり直してください。"
+        error.message
       );
-
     } finally {
       busy = false;
       render();
@@ -2677,129 +1908,136 @@ def handle(request_json):
   }
 
   async function startGame() {
-    if (busy || !ready) {
-      return;
-    }
+    if (!ready || busy) return;
 
     busy = true;
+    hideExplanation();
 
-    $("menuStart").disabled =
-      true;
-
-    $("resultOverlay").hidden =
-      true;
+    $("menuStart").disabled = true;
+    $("resultOverlay").hidden = true;
 
     $("menuMessage").textContent =
       "新しいゲームを準備しています…";
 
     try {
-      const answer = await python({
+      const result = await python({
         action: "reset",
-        difficulty:
-          $("menuDifficulty").value
+        difficulty: $("menuDifficulty").value
       });
 
-      if (answer.error) {
-        throw new Error(
-          answer.error
-        );
+      if (result.error) {
+        throw new Error(result.error);
       }
 
-      state = answer.state;
-      primary = null;
+      state = result.state;
+      selected = null;
       extras = [];
 
       $("difficulty").value =
         $("menuDifficulty").value;
 
-      $("menuOverlay").hidden =
-        true;
-
-      render();
-      await nextPaint();
-
-      setStatus(
-        answer.message
-      );
+      $("menuOverlay").hidden = true;
+      status(result.message);
 
     } catch (error) {
-      $("menuMessage").textContent =
+      const message =
         "開始できませんでした：" +
         error.message;
 
-      setStatus(
-        "開始できませんでした：" +
-        error.message
-      );
+      $("menuMessage").textContent = message;
+      status(message);
 
     } finally {
       busy = false;
-
-      $("menuStart").disabled =
-        !ready;
-
+      $("menuStart").disabled = !ready;
       render();
     }
   }
 
-  function openMenu() {
-    if (busy) {
-      return;
-    }
+  function openMenu(showRules = false) {
+    if (busy) return;
 
-    $("resultOverlay").hidden =
-      true;
+    hideExplanation();
 
-    $("menuOverlay").hidden =
-      false;
-
-    $("menuReturn").hidden =
-      !state;
+    $("resultOverlay").hidden = true;
+    $("menuOverlay").hidden = false;
+    $("menuReturn").hidden = !state;
 
     $("menuDifficulty").value =
       $("difficulty").value;
 
-    $("menuMessage").textContent =
-      ready
-        ? "難易度を選び、ゲームを始めてください。"
-        : "ゲームの準備をしています…";
+    $("rulesBox").hidden = !showRules;
 
-    $("menuStart").disabled =
-      !ready;
+    $("menuRules").textContent = showRules
+      ? "遊び方を閉じる"
+      : "遊び方を見る";
+
+    $("menuMessage").textContent = ready
+      ? "難易度を選んでゲームを始めてください。"
+      : "ゲームの準備をしています…";
+
+    $("menuStart").disabled = !ready;
 
     render();
-  }
+    hideExplanation();
 
-  function showRules() {
-    const box = $("rulesBox");
-
-    box.hidden = false;
-
-    $("menuRules").textContent =
-      "遊び方を閉じる";
-
-    typeset([box]);
+    if (showRules) {
+      typesetRules();
+    }
   }
 
   $("openSettings").addEventListener(
     "click",
-    () => {
-      togglePanel(
-        "settingsPanel",
-        "openSettings",
-        "状況・設定"
-      );
-    }
+    () => toggle(
+      "settingsPanel",
+      "openSettings",
+      "状況・設定"
+    )
   );
 
   $("openHistory").addEventListener(
     "click",
+    () => toggle(
+      "historyPanel",
+      "openHistory",
+      "操作履歴"
+    )
+  );
+
+  $("openMenu").addEventListener(
+    "click",
+    () => openMenu(false)
+  );
+
+  $("quickRules").addEventListener(
+    "click",
+    () => openMenu(true)
+  );
+
+  $("menuRules").addEventListener(
+    "click",
     () => {
-      togglePanel(
-        "historyPanel",
-        "openHistory",
-        "操作履歴"
-      );
+      $("rulesBox").hidden =
+        !$("rulesBox").hidden;
+
+      $("menuRules").textContent =
+        $("rulesBox").hidden
+          ? "遊び方を見る"
+          : "遊び方を閉じる";
+
+      if (!$("rulesBox").hidden) {
+        typesetRules();
+      }
+    }
+  );
+
+  $("menuReturn").addEventListener(
+    "click",
+    () => {
+      if (!state || busy) return;
+
+      $("menuOverlay").hidden = true;
+      render();
     }
   );
 
@@ -2817,142 +2055,124 @@ def handle(request_json):
       $("menuDifficulty").value =
         $("difficulty").value;
 
-      if (!busy && state) {
-        setStatus(
-          "難易度の変更は、新しいゲームから反映されます。"
-        );
-      }
+      status(
+        "難易度の変更は次のゲームから反映されます。"
+      );
     }
   );
 
-  $("menuStart").addEventListener(
-    "click",
-    startGame
-  );
-
-  $("menuRules").addEventListener(
-    "click",
+  $("reverseDivide").addEventListener(
+    "change",
     () => {
-      const box = $("rulesBox");
-
-      if (box.hidden) {
-        showRules();
-      } else {
-        box.hidden = true;
-
-        $("menuRules").textContent =
-          "遊び方を見る";
+      if (selected !== null && !busy) {
+        showExplanation();
       }
-    }
-  );
-
-  $("menuReturn").addEventListener(
-    "click",
-    () => {
-      if (!state || busy) {
-        return;
-      }
-
-      $("menuOverlay").hidden =
-        true;
-
-      render();
-    }
-  );
-
-  $("openMenu").addEventListener(
-    "click",
-    openMenu
-  );
-
-  $("quickRules").addEventListener(
-    "click",
-    () => {
-      if (busy) {
-        return;
-      }
-
-      openMenu();
-      showRules();
     }
   );
 
   $("cancel").addEventListener(
     "click",
     () => {
-      primary = null;
+      selected = null;
       extras = [];
-
-      setStatus(
-        "選択を解除しました。"
-      );
-
+      hideExplanation();
+      status("選択を解除しました。");
       render();
     }
   );
 
-  $("reset").addEventListener(
-    "click",
-    startGame
-  );
-
-  $("resultReset").addEventListener(
-    "click",
-    startGame
-  );
+  $("menuStart").addEventListener("click", startGame);
+  $("reset").addEventListener("click", startGame);
+  $("resultReset").addEventListener("click", startGame);
 
   $("resultClose").addEventListener(
     "click",
     () => {
-      $("resultOverlay").hidden =
-        true;
+      $("resultOverlay").hidden = true;
     }
   );
 
   $("resultMenu").addEventListener(
     "click",
-    openMenu
+    () => openMenu(false)
   );
+
+  // スクロールや画面サイズの変更に合わせて説明の位置を更新。
+  window.addEventListener(
+    "scroll",
+    positionExplanation,
+    { passive: true }
+  );
+
+  $("hand").addEventListener(
+    "scroll",
+    positionExplanation,
+    { passive: true }
+  );
+
+  window.addEventListener(
+    "resize",
+    positionExplanation
+  );
+
+  function loadPyodideScript() {
+    return new Promise((resolve, reject) => {
+      if (typeof window.loadPyodide === "function") {
+        resolve();
+        return;
+      }
+
+      const script = document.createElement("script");
+
+      script.src =
+        "https://cdn.jsdelivr.net/pyodide/v0.27.4/full/pyodide.js";
+
+      const timeout = setTimeout(() => {
+        script.remove();
+        reject(new Error(
+          "Pyodideの読み込みがタイムアウトしました。"
+        ));
+      }, 30000);
+
+      script.onload = () => {
+        clearTimeout(timeout);
+        resolve();
+      };
+
+      script.onerror = () => {
+        clearTimeout(timeout);
+        reject(new Error(
+          "Pyodideの読み込みに失敗しました。"
+        ));
+      };
+
+      document.head.appendChild(script);
+    });
+  }
 
   async function initialize() {
     try {
       $("menuMessage").textContent =
         "Pyodideを読み込んでいます…";
 
-      setStatus(
-        "計算環境を読み込んでいます…"
-      );
+      status("計算環境を読み込んでいます…");
 
-      if (
-        typeof loadPyodide ===
-        "undefined"
-      ) {
-        throw new Error(
-          "Pyodideを読み込めませんでした。"
-        );
-      }
+      await loadPyodideScript();
 
-      pyodide = await loadPyodide({
+      pyodide = await window.loadPyodide({
         indexURL:
           "https://cdn.jsdelivr.net/pyodide/v0.27.4/full/"
       });
 
       $("menuMessage").textContent =
-        "計算ライブラリを読み込んでいます…";
+        "SymPyを読み込んでいます…";
 
-      setStatus(
-        "数学ライブラリを読み込んでいます…"
-      );
+      status("数学ライブラリを読み込んでいます…");
 
       try {
-        await pyodide.loadPackage(
-          "sympy"
-        );
-
+        await pyodide.loadPackage("sympy");
       } catch (_) {
-        await pyodide.loadPackage(
-          "micropip"
-        );
+        await pyodide.loadPackage("micropip");
 
         await pyodide.runPythonAsync(
           "import micropip; " +
@@ -2968,33 +2188,35 @@ def handle(request_json):
       );
 
       ready = true;
-
-      $("menuStart").disabled =
-        false;
+      $("menuStart").disabled = false;
 
       $("menuMessage").textContent =
         "準備ができました。ゲームを始めてください。";
 
-      setStatus(
-        "メニューからゲームを始めてください。"
-      );
+      status("メニューからゲームを始めてください。");
 
     } catch (error) {
       ready = false;
+      $("menuStart").disabled = true;
 
-      $("menuStart").disabled =
-        true;
-
-      $("menuMessage").textContent =
+      const message =
         "起動できませんでした：" +
         error.message +
         "\n通信環境を確認して再読み込みしてください。";
 
-      setStatus(
-        $("menuMessage").textContent
-      );
+      $("menuMessage").textContent = message;
+      status(message);
     }
   }
+
+  // MathJaxが後から読み込まれた場合も数式を更新する。
+  window.addEventListener("load", () => {
+    typesetCards();
+
+    if (!$("rulesBox").hidden) {
+      typesetRules();
+    }
+  });
 
   initialize();
 })();
